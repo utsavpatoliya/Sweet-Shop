@@ -7,6 +7,8 @@ const sweetsRouter = require('./routes/sweets');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const cors = require('cors');
+app.use(cors());
 // Middleware to parse JSON bodies
 app.use(express.json());
 // Mount sweets API routes
