@@ -43,3 +43,19 @@ describe('GET /api/sweets', () => {
     expect(res.body.map(s => s.name)).toEqual(expect.arrayContaining(['Lollipop', 'Cupcake']));
   });
 });
+
+describe('DELETE /api/sweets/:id', () => {
+  beforeEach(() => {
+    // Reset the in-memory store before each test
+    const Sweet = require('../models/sweet');
+    Sweet._reset();
+  });
+  it('should delete a sweet by id', async () => {
+    const sweet = { name: 'Candy Cane', category: 'candy', price: 1.5, quantity: 15 };
+    const addRes = await request(app).post('/api/sweets').send(sweet);
+    const sweetId = addRes.body.id;
+    await request(app).delete(`/api/sweets/${sweetId}`).expect(204);
+    const getRes = await request(app).get('/api/sweets').expect(200);
+    expect(getRes.body.find(s => s.id === sweetId)).toBeUndefined();
+  });
+});

@@ -14,7 +14,21 @@ function getAllSweetsController(req, res) {
   res.status(200).json(sweets);
 }
 
+function deleteSweetController(req, res) {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
+  const deleted = Sweet.deleteSweet(id);
+  if (deleted) {
+    return res.status(204).send();
+  } else {
+    return res.status(404).json({ error: 'Sweet not found' });
+  }
+}
+
 module.exports = {
   addSweetController,
-  getAllSweetsController
+  getAllSweetsController,
+  deleteSweetController
 };
