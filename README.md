@@ -3,10 +3,10 @@
 A Node.js + Express backend for Sweet Shop inventory management, featuring in-memory storage, RESTful API, and full test-driven development (TDD) with Jest and Supertest.
 
 ## UI Screenshot
-![Sweet Shop UI Screenshot](../sweet-shop-frontend/1.png)
-![Sweet Shop UI Screenshot](../sweet-shop-frontend/2.png)
-![Sweet Shop UI Screenshot](../sweet-shop-frontend/3.png)
-![Sweet Shop UI Screenshot](../sweet-shop-frontend/4.png)
+![Sweet Shop UI Screenshot](https://github.com/utsavpatoliya/Sweet-Shop/blob/60b6707bc9ef9ad6c6a3331ba77dd79adc58d083/sweet-shop-frontend/1.png)
+![Sweet Shop UI Screenshot](https://github.com/utsavpatoliya/Sweet-Shop/blob/60b6707bc9ef9ad6c6a3331ba77dd79adc58d083/sweet-shop-frontend/2.png)
+![Sweet Shop UI Screenshot](https://github.com/utsavpatoliya/Sweet-Shop/blob/60b6707bc9ef9ad6c6a3331ba77dd79adc58d083/sweet-shop-frontend/3.png)
+![Sweet Shop UI Screenshot](https://github.com/utsavpatoliya/Sweet-Shop/blob/60b6707bc9ef9ad6c6a3331ba77dd79adc58d083/sweet-shop-frontend/4.png)
 
 ## Features
 - Add, view, delete sweets
