@@ -1,5 +1,11 @@
+// controllers/sweetsController.js
+// Handles HTTP request logic for sweets endpoints
+
 const Sweet = require('../models/sweet');
 
+/**
+ * Add a new sweet (POST /api/sweets)
+ */
 function addSweetController(req, res) {
   const { name, category, price, quantity } = req.body;
   if (!name || !category || typeof price !== 'number' || typeof quantity !== 'number') {
@@ -9,6 +15,9 @@ function addSweetController(req, res) {
   res.status(201).json(sweet);
 }
 
+/**
+ * Get all sweets, with optional search/filter (GET /api/sweets)
+ */
 function getAllSweetsController(req, res) {
   let sweets = Sweet.getAllSweets();
   const { name, category, minPrice, maxPrice } = req.query;
@@ -27,6 +36,9 @@ function getAllSweetsController(req, res) {
   res.status(200).json(sweets);
 }
 
+/**
+ * Delete a sweet by ID (DELETE /api/sweets/:id)
+ */
 function deleteSweetController(req, res) {
   const id = parseInt(req.params.id, 10);
   if (isNaN(id)) {
@@ -40,8 +52,45 @@ function deleteSweetController(req, res) {
   }
 }
 
+/**
+ * Purchase a sweet (decrease quantity) (POST /api/sweets/:id/purchase)
+ */
+function purchaseSweetController(req, res) {
+  const id = parseInt(req.params.id, 10);
+  const qty = req.body.quantity;
+  if (isNaN(id) || typeof qty !== 'number' || qty <= 0) {
+    return res.status(400).json({ error: 'Invalid input' });
+  }
+  const result = Sweet.purchaseSweet(id, qty);
+  if (result.error === 'Sweet not found') {
+    return res.status(404).json({ error: result.error });
+  }
+  if (result.error === 'Not enough stock') {
+    return res.status(400).json({ error: result.error });
+  }
+  res.status(200).json(result.sweet);
+}
+
+/**
+ * Restock a sweet (increase quantity) (POST /api/sweets/:id/restock)
+ */
+function restockSweetController(req, res) {
+  const id = parseInt(req.params.id, 10);
+  const qty = req.body.quantity;
+  if (isNaN(id) || typeof qty !== 'number' || qty <= 0) {
+    return res.status(400).json({ error: 'Invalid input' });
+  }
+  const result = Sweet.restockSweet(id, qty);
+  if (result.error === 'Sweet not found') {
+    return res.status(404).json({ error: result.error });
+  }
+  res.status(200).json(result.sweet);
+}
+
 module.exports = {
   addSweetController,
   getAllSweetsController,
-  deleteSweetController
+  deleteSweetController,
+  purchaseSweetController,
+  restockSweetController
 };
