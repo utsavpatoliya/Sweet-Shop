@@ -10,7 +10,20 @@ function addSweetController(req, res) {
 }
 
 function getAllSweetsController(req, res) {
-  const sweets = Sweet.getAllSweets();
+  let sweets = Sweet.getAllSweets();
+  const { name, category, minPrice, maxPrice } = req.query;
+  if (name) {
+    sweets = sweets.filter(s => s.name.toLowerCase().includes(name.toLowerCase()));
+  }
+  if (category) {
+    sweets = sweets.filter(s => s.category.toLowerCase() === category.toLowerCase());
+  }
+  if (minPrice) {
+    sweets = sweets.filter(s => s.price >= parseFloat(minPrice));
+  }
+  if (maxPrice) {
+    sweets = sweets.filter(s => s.price <= parseFloat(maxPrice));
+  }
   res.status(200).json(sweets);
 }
 

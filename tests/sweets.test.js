@@ -59,3 +59,31 @@ describe('DELETE /api/sweets/:id', () => {
     expect(getRes.body.find(s => s.id === sweetId)).toBeUndefined();
   });
 });
+
+describe('GET /api/sweets (search & filter)', () => {
+  beforeEach(() => {
+    const Sweet = require('../models/sweet');
+    Sweet._reset();
+  });
+  it('should search sweets by name', async () => {
+    await request(app).post('/api/sweets').send({ name: 'Choco Pie', category: 'chocolate', price: 5, quantity: 10 });
+    await request(app).post('/api/sweets').send({ name: 'Candy Corn', category: 'candy', price: 2, quantity: 20 });
+    const res = await request(app).get('/api/sweets?name=Choco').expect(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].name).toBe('Choco Pie');
+  });
+  it('should filter sweets by category', async () => {
+    await request(app).post('/api/sweets').send({ name: 'Brownie', category: 'pastry', price: 4, quantity: 5 });
+    await request(app).post('/api/sweets').send({ name: 'Candy Cane', category: 'candy', price: 1, quantity: 15 });
+    const res = await request(app).get('/api/sweets?category=pastry').expect(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].category).toBe('pastry');
+  });
+  it('should filter sweets by price range', async () => {
+    await request(app).post('/api/sweets').send({ name: 'Macaron', category: 'pastry', price: 3, quantity: 8 });
+    await request(app).post('/api/sweets').send({ name: 'Truffle', category: 'chocolate', price: 7, quantity: 3 });
+    const res = await request(app).get('/api/sweets?minPrice=2&maxPrice=5').expect(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].name).toBe('Macaron');
+  });
+});
