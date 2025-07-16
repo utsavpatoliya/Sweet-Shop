@@ -9,6 +9,12 @@ function addSweetController(req, res) {
   res.status(201).json(sweet);
 }
 
+function getAllSweetsController(req, res) {
+  const sweets = Sweet.getAllSweets();
+  res.status(200).json(sweets);
+}
+
 module.exports = {
-  addSweetController
+  addSweetController,
+  getAllSweetsController
 };
