@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getSweets, addSweet, deleteSweet, purchaseSweet, restockSweet } from "./api/sweets";
+import {
+  getSweets,
+  addSweet,
+  deleteSweet,
+  purchaseSweet,
+  restockSweet,
+} from "./api/sweets";
 import SweetsList from "./components/SweetsList";
 import AddSweetForm from "./components/AddSweetForm";
 import SearchBar from "./components/SearchBar";
@@ -76,19 +82,35 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-start py-8">
+    <div
+      className="min-h-screen flex flex-col items-center justify-start py-8"
+      style={{
+        backgroundImage: 'url("/1.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="w-full max-w-3xl flex flex-col items-center">
         <h1 className="text-4xl font-extrabold mb-8 text-center text-purple-800 drop-shadow animate-bounce">
           🍬 Sweet Shop Inventory
         </h1>
-        {error && !error.toLowerCase().includes("not enough stock") && (
-          <div className="bg-red-200 text-red-800 p-2 mb-2 rounded shadow w-full text-center">{error}</div>
-        )}
-        {success && (
-          <div className="bg-green-200 text-green-800 p-2 mb-2 rounded shadow w-full text-center">{success}</div>
-        )}
-        <AddSweetForm onAdd={handleAdd} />
+
         <SearchBar onSearch={handleSearch} />
+        <AddSweetForm onAdd={handleAdd} />
+
+        {error && (
+          <div className="bg-red-200 text-red-800 p-2 mb-2 rounded shadow w-full text-center">
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="bg-green-200 text-green-800 p-2 mb-2 rounded shadow w-full text-center">
+            {success}
+          </div>
+        )}
+
         <SweetsList
           sweets={sweets}
           onDelete={handleDelete}
